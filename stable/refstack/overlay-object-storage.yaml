@@ -1,0 +1,52 @@
+applications:
+  ceph-radosgw:
+  swift-proxy:
+    charm: cs:swift-proxy
+    num_units: 1
+    options:
+      zone-assignment: manual
+      replicas: 3
+      swift-hash: fdfef9d4-8b06-11e2-8ac0-531c923c8fae
+      openstack-origin: *source
+    bindings:
+      "": public-space
+    to:
+      - lxd:0
+  swift-storage-z1:
+    charm: cs:swift-storage
+    num_units: 1
+    options:
+      zone: 1
+      block-device: /dev/disk/by-dname/bcache3
+      openstack-origin: *source
+    bindings:
+      "": public-space
+    to:
+      - 1
+  swift-storage-z2:
+    charm: cs:swift-storage
+    num_units: 1
+    options:
+      zone: 2
+      block-device: /dev/disk/by-dname/bcache3
+      openstack-origin: *source
+    bindings:
+      "": public-space
+    to:
+      - 2
+  swift-storage-z3:
+    charm: cs:swift-storage
+    num_units: 1
+    options:
+      zone: 3
+      block-device: /dev/disk/by-dname/bcache3
+      openstack-origin: *source
+    bindings:
+      "": public-space
+    to:
+      - 3
+relations:
+  - [ swift-proxy, keystone ]
+  - [ swift-proxy, swift-storage-z1 ]
+  - [ swift-proxy, swift-storage-z2 ]
+  - [ swift-proxy, swift-storage-z3 ]

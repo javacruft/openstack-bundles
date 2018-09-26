@@ -1,0 +1,5 @@
+applications:
+  nova-cloud-controller:
+    charm: cs:~james-page/nova-cloud-controller
+  swift-proxy:
+    charm: cs:~james-page/swift-proxy
